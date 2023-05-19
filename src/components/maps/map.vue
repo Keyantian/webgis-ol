@@ -21,9 +21,13 @@
         <sign-out></sign-out>
       </div>
     </div>
-    
+
     <div>
       <div id="EarthMap"></div>
+    </div>
+
+    <div class="menulist-style">
+      <menu-list></menu-list>
     </div>
   </div>
 </template>
@@ -39,6 +43,7 @@ import View from "ol/View";
 import { ScaleLine, defaults as defaultControls } from "ol/control";
 
 import signOut from "./signout/index.vue";
+import menuList from "./function/index.vue";
 // import a from '../../assets/img/ol.png'
 export default {
   name: "Index",
@@ -47,6 +52,7 @@ export default {
   },
   components: {
     signOut,
+    menuList,
   },
   methods: {
     initMap() {
@@ -74,8 +80,8 @@ export default {
         controls: defaultControls({
           zoom: false,
         }),
-        //1.设置缩放级别为整数 
-        constrainResolution: true, 
+        //1.设置缩放级别为整数
+        constrainResolution: true,
         //2.关闭无级缩放地图
         smoothResolutionConstraint: false,
       });
@@ -83,8 +89,7 @@ export default {
     openNotification() {
       this.$notification.open({
         message: "登陆成功",
-        description:
-          "欢迎回来",
+        description: "欢迎回来",
         icon: <a-icon type="smile" style="color: #108ee9" />,
       });
     },
@@ -98,11 +103,11 @@ export default {
 
 <style scoped>
 #EarthMap {
-  height: 600px;
-  width: 900px;
+  height: 800px;
+  width: 100%;
   margin: 0 auto;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  margin-top: 30px;
+  /* margin-top: 30px; */
 }
 .ol-title {
   height: 75px;
@@ -124,5 +129,10 @@ export default {
   display: flex;
   align-items: center;
   margin-left: 500px;
+}
+.menulist-style {
+  position: absolute;
+  top: 150px;
+  left: 50px;
 }
 </style>
