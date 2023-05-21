@@ -103,7 +103,7 @@ export default {
 
 <style scoped>
 #EarthMap {
-  height: 800px;
+  height: 894px;
   width: 100%;
   margin: 0 auto;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);

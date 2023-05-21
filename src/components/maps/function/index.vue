@@ -7,18 +7,14 @@
       @openChange="onOpenChange"
     >
       <a-sub-menu key="sub1">
-        <span slot="title"
-          ><a-icon type="mail" /><span>Navigation One</span></span
-        >
-        <a-menu-item key="1"> Option 1 </a-menu-item>
+        <span slot="title"><a-icon type="menu" /><span>基础功能</span></span>
+        <a-menu-item key="1" @click="drawFeature"> 图形绘制 </a-menu-item>
         <a-menu-item key="2"> Option 2 </a-menu-item>
         <a-menu-item key="3"> Option 3 </a-menu-item>
         <a-menu-item key="4"> Option 4 </a-menu-item>
       </a-sub-menu>
       <a-sub-menu key="sub2">
-        <span slot="title"
-          ><a-icon type="appstore" /><span>Navigation Two</span></span
-        >
+        <span slot="title"><a-icon type="menu" /><span>功能</span></span>
         <a-menu-item key="5"> Option 5 </a-menu-item>
         <a-menu-item key="6"> Option 6 </a-menu-item>
         <a-sub-menu key="sub3" title="Submenu">
@@ -27,25 +23,30 @@
         </a-sub-menu>
       </a-sub-menu>
       <a-sub-menu key="sub4">
-        <span slot="title"
-          ><a-icon type="setting" /><span>Navigation Three</span></span
-        >
+        <span slot="title"><a-icon type="menu" /><span>功能</span></span>
         <a-menu-item key="9"> Option 9 </a-menu-item>
         <a-menu-item key="10"> Option 10 </a-menu-item>
         <a-menu-item key="11"> Option 11 </a-menu-item>
         <a-menu-item key="12"> Option 12 </a-menu-item>
       </a-sub-menu>
     </a-menu>
+
+    <draw-feature class="draw-feature-style" v-show="drawFeatureVisibility"></draw-feature>
   </div>
 </template>
 
 <script>
+import drawFeature from "./basicFunction/drawFeature/index.vue";
 export default {
   name: "index",
+  components: {
+    drawFeature,
+  },
   data() {
     return {
       rootSubmenuKeys: ["sub1", "sub2", "sub4"],
       openKeys: ["sub1"],
+      drawFeatureVisibility:false
     };
   },
   methods: {
@@ -59,13 +60,23 @@ export default {
         this.openKeys = latestOpenKey ? [latestOpenKey] : [];
       }
     },
+    drawFeature(){
+      this.drawFeatureVisibility = true
+    }
   },
 };
 </script>
 
 <style scoped>
 /deep/.ant-menu {
-  background-color: rgba(145, 135, 135, 0.8);
+  background-color: rgba(92, 87, 87, 0.8);
   color: white;
+}
+.draw-feature-style {
+  position: absolute;
+  width: 600px;
+  top:700px;
+  left: 600px
+
 }
 </style>
