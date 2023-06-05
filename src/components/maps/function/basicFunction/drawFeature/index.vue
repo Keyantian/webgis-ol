@@ -24,10 +24,16 @@
       @click="drawVector('Circle')"
       >绘制圆</a-button
     >
-    <a-button class="btn-color-drawFrature" style="margin-right: 10px"
+    <a-button
+      class="btn-color-drawFrature"
+      style="margin-right: 10px"
+      @click="retract"
       >撤回</a-button
     >
-    <a-button class="btn-color-drawFrature" style="margin-right: 10px"
+    <a-button
+      class="btn-color-drawFrature"
+      style="margin-right: 10px"
+      @click="cancel"
       >取消</a-button
     >
     <a-button class="btn-clear-drawFeature" @click="clearDrawLayer"
@@ -96,11 +102,44 @@ export default {
         }
       });
       this.draw_vector = {};
-      this.draw = {}
+      this.draw = {};
     },
     drawVector(type) {
       window.map.removeInteraction(this.draw);
       this.addInteraction(type);
+    },
+    cancel() {
+      window.map.removeInteraction(this.draw);
+      //   this.draw_vector.getSource().clear();
+      //清空绘制图形
+      map.getAllLayers().forEach((element) => {
+        if (element.values_.name == "drawtest") {
+          map.removeLayer(element);
+        }
+      });
+    },
+    retract() {
+      let layers = map.getAllLayers();
+
+      let cur = layers[layers.length - 1];
+      if (cur.values_.name == "drawtest") {
+        let source = cur.getSource();
+        let features = source.getFeatures();
+        if(features.length==1){
+          map.removeLayer(cur)
+        }
+        console.log(features.length);
+        source.removeFeature(features[features.length - 1]);
+        
+      }
+      // map.getAllLayers().forEach((element) => {
+      //   if (element.values_.name == "drawtest") {
+      //     // map.removeLayer(element);
+      //     // element.getSource().forEachFeature((e)=>{
+      //     //   element.getSource().removeFeature(e)
+      //     // });
+      //   }
+      // });
     },
   },
 };
