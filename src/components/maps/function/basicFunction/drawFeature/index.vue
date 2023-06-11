@@ -119,6 +119,7 @@ export default {
       });
     },
     retract() {
+      window.map.removeInteraction(this.draw);
       let layers = map.getAllLayers();
 
       let cur = layers[layers.length - 1];
@@ -132,6 +133,8 @@ export default {
         source.removeFeature(features[features.length - 1]);
         
       }
+
+      console.log(map.getAllLayers())
       // map.getAllLayers().forEach((element) => {
       //   if (element.values_.name == "drawtest") {
       //     // map.removeLayer(element);
