@@ -9,8 +9,10 @@
       <a-sub-menu key="sub1">
         <span slot="title"><a-icon type="menu" /><span>基础功能</span></span>
         <a-menu-item key="1" @click="drawFeature"> 图形绘制 </a-menu-item>
-        <a-menu-item key="2"> Option 2 </a-menu-item>
-        <a-menu-item key="3"> Option 3 </a-menu-item>
+        <a-menu-item key="2" @click="coordinateLabel"> 坐标标注 </a-menu-item>
+        <a-menu-item key="3" @click="coordinatePosition">
+          坐标定位
+        </a-menu-item>
         <a-menu-item key="4"> Option 4 </a-menu-item>
       </a-sub-menu>
       <a-sub-menu key="sub2">
@@ -31,22 +33,34 @@
       </a-sub-menu>
     </a-menu>
 
-    <draw-feature class="draw-feature-style" v-show="drawFeatureVisibility"></draw-feature>
+    <draw-feature
+      ref="drawFeature"
+      class="draw-feature-style"
+      v-show="drawFeatureVisibility"
+    ></draw-feature>
+    <coordinate-label
+      ref="coordinateLabel"
+      class="coordinate-label-style"
+      v-show="coordinateLabelVisibility"
+    ></coordinate-label>
   </div>
 </template>
 
 <script>
 import drawFeature from "./basicFunction/drawFeature/index.vue";
+import coordinateLabel from "./basicFunction/coordinateLabel/index.vue";
 export default {
   name: "index",
   components: {
     drawFeature,
+    coordinateLabel,
   },
   data() {
     return {
       rootSubmenuKeys: ["sub1", "sub2", "sub4"],
       openKeys: ["sub1"],
-      drawFeatureVisibility:false
+      drawFeatureVisibility: false,
+      coordinateLabelVisibility: false,
     };
   },
   methods: {
@@ -60,8 +74,22 @@ export default {
         this.openKeys = latestOpenKey ? [latestOpenKey] : [];
       }
     },
-    drawFeature(){
-      this.drawFeatureVisibility = true
+    cancel() {
+      this.coordinateLabelVisibility = false;
+      this.drawFeatureVisibility = false;
+      this.$refs.drawFeature.cancel();
+      this.$refs.coordinateLabel.endLabel()
+    },
+    drawFeature() {
+      this.cancel();
+      this.drawFeatureVisibility = true;
+    },
+    coordinateLabel() {
+      this.cancel();
+      this.coordinateLabelVisibility = true;
+    },
+    coordinatePosition() {
+      this.cancel()
     }
   },
 };
@@ -75,8 +103,13 @@ export default {
 .draw-feature-style {
   position: absolute;
   width: 600px;
-  top:700px;
-  left: 600px
-
+  top: 700px;
+  left: 600px;
+}
+.coordinate-label-style {
+  position: absolute;
+  width: 600px;
+  top: 700px;
+  left: 820px;
 }
 </style>
