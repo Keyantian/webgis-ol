@@ -43,17 +43,20 @@
       class="coordinate-label-style"
       v-show="coordinateLabelVisibility"
     ></coordinate-label>
+    <coordinate-position ref="coordinatePosition" v-show="coordinatePositionVisibility" class="coordinate-position-style"></coordinate-position>
   </div>
 </template>
 
 <script>
 import drawFeature from "./basicFunction/drawFeature/index.vue";
 import coordinateLabel from "./basicFunction/coordinateLabel/index.vue";
+import coordinatePosition from "./basicFunction/coordinatePosition/index.vue"
 export default {
   name: "index",
   components: {
     drawFeature,
     coordinateLabel,
+    coordinatePosition
   },
   data() {
     return {
@@ -61,6 +64,7 @@ export default {
       openKeys: ["sub1"],
       drawFeatureVisibility: false,
       coordinateLabelVisibility: false,
+      coordinatePositionVisibility:false
     };
   },
   methods: {
@@ -77,6 +81,7 @@ export default {
     cancel() {
       this.coordinateLabelVisibility = false;
       this.drawFeatureVisibility = false;
+      this.coordinatePositionVisibility = false
       this.$refs.drawFeature.cancel();
       this.$refs.coordinateLabel.endLabel()
     },
@@ -89,7 +94,8 @@ export default {
       this.coordinateLabelVisibility = true;
     },
     coordinatePosition() {
-      this.cancel()
+      this.cancel();
+      this.coordinatePositionVisibility = true
     }
   },
 };
@@ -111,5 +117,11 @@ export default {
   width: 600px;
   top: 700px;
   left: 820px;
+}
+.coordinate-position-style{
+    position: absolute;
+  width: 600px;
+  top: 700px;
+  left: 600px;
 }
 </style>
