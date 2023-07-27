@@ -84,6 +84,7 @@ export default {
       this.coordinatePositionVisibility = false
       this.$refs.drawFeature.cancel();
       this.$refs.coordinateLabel.endLabel()
+      this.$refs.coordinatePosition.cancel()
     },
     drawFeature() {
       this.cancel();

@@ -16,20 +16,91 @@
       :step="0.01"
       style="margin-right: 30px"
     />
-    <a-button class="position-style" style="margin-right: 30px">定位</a-button>
-    <a-button class="cancel-style" style="margin-right: 30px">取消</a-button>
+    <a-button
+      class="position-style"
+      style="margin-right: 30px"
+      @click="position"
+      >定位</a-button
+    >
+    <a-button class="cancel-style" style="margin-right: 30px" @click="cancel"
+      >取消</a-button
+    >
   </div>
 </template>
 
 <script>
+import { Vector as VectorLayer } from "ol/layer";
+import { unByKey } from "ol/Observable";
+import { Vector as VectorSource } from "ol/source";
+import { Feature } from "ol";
+import { Point } from "ol/geom";
+import {
+  Circle as CircleStyle,
+  Style,
+  Icon,
+  Stroke,
+  Fill,
+  Text,
+  Circle,
+} from "ol/style";
+
+import Overlay from "ol/Overlay";
+import { toStringHDMS } from "ol/coordinate";
+import { toLonLat } from "ol/proj";
 export default {
   name: "index",
   data() {
     return {
-      value: [{ x: 0 }, { y: 0 }],
+      value: [{ x: 117.2 }, { y: 39.12 }],
     };
   },
-  methods: {},
+  methods: {
+    position() {
+      map.getAllLayers().forEach((element) => {
+        if (element.values_.name == "coordinatePosition") {
+          map.removeLayer(element);
+        }
+      });
+      let longitude = this.value[0].x;
+      let latitude = this.value[1].y;
+      this.feature = new Feature({
+        title: "dingwei",
+        geometry: new Point([longitude, latitude]),
+      });
+      this.feature.setStyle(
+        new Style({
+          image: new CircleStyle({
+            fill: new Fill({
+              color: "red",
+            }),
+            radius: 6,
+          }),
+        })
+      );
+      let source = new VectorSource();
+      source.addFeature(this.feature);
+      let layer = new VectorLayer({
+        name: "coordinatePosition",
+      });
+
+      layer.setSource(source);
+      map.addLayer(layer);
+
+      map.getView().animate({
+        center: [longitude, latitude],
+        zoom: 9,
+        rotation: undefined,
+        duration: 1000,
+      });
+    },
+    cancel() {
+      map.getAllLayers().forEach((element) => {
+        if (element.values_.name == "coordinatePosition") {
+          map.removeLayer(element);
+        }
+      });
+    },
+  },
 };
 </script>
 
