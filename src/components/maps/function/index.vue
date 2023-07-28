@@ -13,7 +13,7 @@
         <a-menu-item key="3" @click="coordinatePosition">
           坐标定位
         </a-menu-item>
-        <a-menu-item key="4"> Option 4 </a-menu-item>
+        <a-menu-item key="4" @click="spatialMeasure"> 空间测量 </a-menu-item>
       </a-sub-menu>
       <a-sub-menu key="sub2">
         <span slot="title"><a-icon type="menu" /><span>功能</span></span>
@@ -43,20 +43,31 @@
       class="coordinate-label-style"
       v-show="coordinateLabelVisibility"
     ></coordinate-label>
-    <coordinate-position ref="coordinatePosition" v-show="coordinatePositionVisibility" class="coordinate-position-style"></coordinate-position>
+    <coordinate-position
+      ref="coordinatePosition"
+      v-show="coordinatePositionVisibility"
+      class="coordinate-position-style"
+    ></coordinate-position>
+    <spatial-measure
+      ref="spatialMeasure"
+      v-show="spatialMeasureVisibility"
+      class="spatial-measure-style"
+    ></spatial-measure>
   </div>
 </template>
 
 <script>
 import drawFeature from "./basicFunction/drawFeature/index.vue";
 import coordinateLabel from "./basicFunction/coordinateLabel/index.vue";
-import coordinatePosition from "./basicFunction/coordinatePosition/index.vue"
+import coordinatePosition from "./basicFunction/coordinatePosition/index.vue";
+import spatialMeasure from "./basicFunction/spatialMasure/index.vue";
 export default {
   name: "index",
   components: {
     drawFeature,
     coordinateLabel,
-    coordinatePosition
+    coordinatePosition,
+    spatialMeasure,
   },
   data() {
     return {
@@ -64,7 +75,8 @@ export default {
       openKeys: ["sub1"],
       drawFeatureVisibility: false,
       coordinateLabelVisibility: false,
-      coordinatePositionVisibility:false
+      coordinatePositionVisibility: false,
+      spatialMeasureVisibility:false
     };
   },
   methods: {
@@ -81,10 +93,13 @@ export default {
     cancel() {
       this.coordinateLabelVisibility = false;
       this.drawFeatureVisibility = false;
-      this.coordinatePositionVisibility = false
+      this.coordinatePositionVisibility = false;
+      this.spatialMeasureVisibility = false
       this.$refs.drawFeature.cancel();
-      this.$refs.coordinateLabel.endLabel()
-      this.$refs.coordinatePosition.cancel()
+      this.$refs.coordinateLabel.endLabel();
+      this.$refs.coordinatePosition.cancel();
+      this.$refs.coordinatePosition.value = [{ x: 117.2 }, { y: 39.12 }];
+      this.$refs.spatialMeasure.cancel()
     },
     drawFeature() {
       this.cancel();
@@ -96,7 +111,11 @@ export default {
     },
     coordinatePosition() {
       this.cancel();
-      this.coordinatePositionVisibility = true
+      this.coordinatePositionVisibility = true;
+    },
+    spatialMeasure(){
+      this.cancel()
+      this.spatialMeasureVisibility = true
     }
   },
 };
@@ -119,10 +138,16 @@ export default {
   top: 700px;
   left: 820px;
 }
-.coordinate-position-style{
-    position: absolute;
+.coordinate-position-style {
+  position: absolute;
   width: 600px;
   top: 700px;
   left: 600px;
+}
+.spatial-measure-style{
+  position: absolute;
+  width: 600px;
+  top: 700px;
+  left:750px;
 }
 </style>

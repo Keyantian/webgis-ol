@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import coordinatePositionIcon from "../../../../../assets/img/coordinatePosition.png";
 import { Vector as VectorLayer } from "ol/layer";
 import { unByKey } from "ol/Observable";
 import { Vector as VectorSource } from "ol/source";
@@ -69,11 +70,18 @@ export default {
       });
       this.feature.setStyle(
         new Style({
-          image: new CircleStyle({
-            fill: new Fill({
-              color: "red",
-            }),
-            radius: 6,
+          // image: new CircleStyle({
+          //   fill: new Fill({
+          //     color: "red",
+          //   }),
+          //   radius: 6,
+          // }),
+          image: new Icon({
+            anchor: [0.5, 46],
+            scale: 0.6,
+            anchorXUnits: "fraction",
+            anchorYUnits: "pixels",
+            src: coordinatePositionIcon,
           }),
         })
       );
@@ -101,6 +109,7 @@ export default {
       });
     },
   },
+  mounted() {},
 };
 </script>
 
